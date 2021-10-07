@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Animated, Dimensions, Image, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? 40 : StatusBar.currentHeight;
+const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 40 : StatusBar.currentHeight) + 75;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_PADDING = SCREEN_WIDTH > 375 ? 125 : (SCREEN_WIDTH > 250 ? SCREEN_WIDTH - 250 : 60);
 
@@ -31,12 +31,12 @@ export default class Login extends Component {
           style={[styles.input, { fontWeight: this.state.password.length ? "500" : "300" }]} placeholder='Password' placeholderTextColor="rgba(254, 254, 254, 0.75)"
           secureTextEntry={true} onChangeText={password => this.setState({ password })}
         >{this.state.password}</TextInput>
-        <TouchableOpacity style={styles.button} >
+        <TouchableOpacity style={styles.button} onPress={() => {this.props.navigation.push('Index')}} >
           <Text style={styles.button_text} >Log in</Text>
         </TouchableOpacity>
         <View style={styles.change_page_wrapper} >
           <Text style={styles.change_page_text} >Don't you have an account? </Text>
-          <TouchableOpacity style={styles.change_page_button} >
+          <TouchableOpacity style={styles.change_page_button} onPress={() => {this.props.navigation.push('Register')}} >
             <Text style={styles.change_page_button_text} >Register</Text>
           </TouchableOpacity>
         </View>
@@ -47,7 +47,7 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   all_wrapper: {
-    flex: 1, paddingTop: STATUS_BAR_HEIGHT, backgroundColor: "rgb(22, 22, 22)",
+    flex: 1, paddingTop: STATUS_BAR_HEIGHT, backgroundColor: "rgb(12, 12, 12)",
     alignItems: "center"
   },
   logo_wrapper: {
@@ -60,12 +60,33 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH - SCREEN_PADDING, height: 40, justifyContent: "center", paddingLeft: 15, 
     color: "rgba(254, 254, 254, 0.75)", fontSize: 16,
     borderColor: "rgba(248, 248, 248, 0.75)", borderWidth: 1, borderRadius: 10,
-    marginBottom: 20, backgroundColor: "rgb(24, 24, 24)"
+    marginBottom: 20, backgroundColor: "rgb(14, 14, 14)"
   },
   button: {
     width: SCREEN_WIDTH - SCREEN_PADDING, height: 40, justifyContent: "center", alignItems: "center",
     backgroundColor: "rgb(248, 248, 248)", borderRadius: 10,
     shadowColor: "rgba(248, 248, 248, 0.25)"
+  },
+  button_text: {
+    color: "rgb(22, 22, 22)",
+    fontWeight: "700",
+    fontSize: 16
+  },
+  change_page_wrapper: {
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  change_page_text: {
+    color: "rgb(254, 254, 254)",
+    fontWeight: "500",
+    fontSize: 14,
+    marginRight: 7
+  },
+  change_page_button_text: {
+    color: "rgba(211, 82, 47, 1)",
+    fontWeight: "600",
+    fontSize: 14
   }
 });
  

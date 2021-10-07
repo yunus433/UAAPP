@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Animated, Dimensions, Image, Platform, Pressable, StyleSheet, ScrollView, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 40 : StatusBar.currentHeight);
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_PADDING = SCREEN_WIDTH > 375 ? 125 : (SCREEN_WIDTH > 250 ? SCREEN_WIDTH - 250 : 60);
 
-export default class Index extends Component {
+export default class Details extends Component {
   constructor(props) {
     super(props);
 
@@ -18,64 +17,13 @@ export default class Index extends Component {
         emailPrefix: "ygurlek22",
         profileImage: "../../assets/default/profile_image.png"
       },
-      announcements: [
-        {
-          _id: "1",
-          title: "Yeni akademik takvim açıklandı",
-          text: "Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın.",
-          is_favorite: false,
-          image: "https://styles.redditmedia.com/t5_3pl96/styles/communityIcon_8hd10savu5v41.jpg?width=256&format=pjpg&s=202a803566c0f046e437c04c2c70e96bf4136362"
-        },
-        {
-          _id: "2",
-          title: "Codefest’22 Ekip Başvuruları Açıldı",
-          text: "Başvuru formuna gitmek için tıklayın.",
-          is_favorite: true,
-          image: "https://codefesttr.org/res/images/dashboard_image_small.png"
-        },
-        {
-          _id: "3",
-          title: "Yeni akademik takvim açıklandı",
-          text: "Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın.",
-          is_favorite: false,
-          image: "https://styles.redditmedia.com/t5_3pl96/styles/communityIcon_8hd10savu5v41.jpg?width=256&format=pjpg&s=202a803566c0f046e437c04c2c70e96bf4136362"
-        },
-        {
-          _id: "4",
-          title: "Codefest’22 Ekip Başvuruları Açıldı",
-          text: "Başvuru formuna gitmek için tıklayın.",
-          is_favorite: true,
-          image: "https://codefesttr.org/res/images/dashboard_image_small.png"
-        },
-        {
-          _id: "5",
-          title: "Yeni akademik takvim açıklandı",
-          text: "Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın.",
-          is_favorite: false,
-          image: "https://styles.redditmedia.com/t5_3pl96/styles/communityIcon_8hd10savu5v41.jpg?width=256&format=pjpg&s=202a803566c0f046e437c04c2c70e96bf4136362"
-        },
-        {
-          _id: "6",
-          title: "Codefest’22 Ekip Başvuruları Açıldı",
-          text: "Başvuru formuna gitmek için tıklayın.",
-          is_favorite: true,
-          image: "https://codefesttr.org/res/images/dashboard_image_small.png"
-        },
-        {
-          _id: "7",
-          title: "Yeni akademik takvim açıklandı",
-          text: "Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın.",
-          is_favorite: false,
-          image: "https://styles.redditmedia.com/t5_3pl96/styles/communityIcon_8hd10savu5v41.jpg?width=256&format=pjpg&s=202a803566c0f046e437c04c2c70e96bf4136362"
-        },
-        {
-          _id: "8",
-          title: "Codefest’22 Ekip Başvuruları Açıldı",
-          text: "Başvuru formuna gitmek için tıklayın.",
-          is_favorite: true,
-          image: "https://codefesttr.org/res/images/dashboard_image_small.png"
-        }
-      ]
+      announcement: {
+        _id: "1",
+        title: "Yeni akademik takvim açıklandı",
+        text: "Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın. Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın. Üsküdar Amerikan Lisesi 2021-2022 Eğitim Yılı akademik takvimini görmek için tıklayın",
+        is_favorite: false,
+        image: "https://styles.redditmedia.com/t5_3pl96/styles/communityIcon_8hd10savu5v41.jpg?width=256&format=pjpg&s=202a803566c0f046e437c04c2c70e96bf4136362"
+      }
     };
   }
 
@@ -85,8 +33,8 @@ export default class Index extends Component {
         <Image source={require('../../assets/top_images/announcements.png')} style={styles.page_top_image} ></Image>
         <View style={styles.page_top_wrapper} >
           <View style={styles.page_top_text_wrapper} >
-            <Text style={styles.page_top_title} >ANNOUNCEMENTS</Text>
-            <Text style={styles.page_top_text} >See announcements and add them to your favorites to easily access.</Text>
+            <Text style={styles.page_top_title} >DETAILS</Text>
+            <Text style={styles.page_top_text} >Read details of the announcements you like.</Text>
           </View>
           <TouchableOpacity style={styles.page_top_profile_wrapper} >
             <View style={styles.page_top_profile_text_wrapper} >
@@ -97,47 +45,23 @@ export default class Index extends Component {
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.content_wrapper} >
-          { this.state.announcements.map((announcement, key) => {
-            if (announcement.is_favorite) {
-              return (
-                <TouchableOpacity key={key} style={styles.each_announcement_wrapper} onPress={() => {this.props.navigation.push('Details', { id: announcement.id })}} >
-                  <Image source={{uri: announcement.image}} style={styles.each_announcement_image} ></Image>
-                  <View style={styles.each_announcement_inner_wrapper} >
-                    <Text style={styles.each_announcement_title} numberOfLines={2} lineBreakMode="tail" >{announcement.title}</Text>
-                    <Text style={styles.each_announcement_text} numberOfLines={1} lineBreakMode="tail" >{announcement.text}</Text>
-                    <TouchableOpacity onPress={() => {this.setState({
-                      announcements: this.state.announcements.map(each => {
-                        if (each._id != announcement._id) return each;
-                        each.is_favorite = false;
-                        return each;
-                      })
-                    })}} >
-                      <Image source={require('../../assets/favorite_selected_button.png')} style={styles.each_announcement_favorite_button} ></Image>
-                    </TouchableOpacity>
-                  </View>
+          <View style={styles.content_inner_wrapper} >
+            <Image source={{uri: this.state.announcement.image}} style={styles.announcement_image} ></Image>
+            <View style={styles.announcement_title_wrapper} >
+              <Text style={styles.announcement_title} >{this.state.announcement.title}</Text>
+              {
+                this.state.announcement.is_favorite ?
+                <TouchableOpacity onPress={() => {}} >
+                  <Image source={require('../../assets/favorite_big_selected_button.png')} style={styles.announcement_favorite_button} ></Image>
                 </TouchableOpacity>
-              );
-            } else {
-              return (
-                <TouchableOpacity key={key} style={styles.each_announcement_wrapper} onPress={() => {this.props.navigation.push('Details', { id: announcement.id })}} >
-                  <Image source={{uri: announcement.image}} style={styles.each_announcement_image} ></Image>
-                  <View style={styles.each_announcement_inner_wrapper} >
-                    <Text style={styles.each_announcement_title} numberOfLines={2} lineBreakMode="tail" >{announcement.title}</Text>
-                    <Text style={styles.each_announcement_text} numberOfLines={1} lineBreakMode="tail" >{announcement.text}</Text>
-                    <TouchableOpacity onPress={() => {this.setState({
-                      announcements: this.state.announcements.map(each => {
-                        if (each._id != announcement._id) return each;
-                        each.is_favorite = true;
-                        return each;
-                      })
-                    })}} >
-                      <Image source={require('../../assets/favorite_not_selected_button.png')} style={styles.each_announcement_favorite_button} ></Image>
-                    </TouchableOpacity>
-                  </View>
+                :
+                <TouchableOpacity onPress={() => {}} >
+                  <Image source={require('../../assets/favorite_big_not_selected_button.png')} style={styles.announcement_favorite_button} ></Image>
                 </TouchableOpacity>
-              );
-            }
-          }) }
+              }
+            </View>
+            <Text style={styles.announcement_text} >{this.state.announcement.text}</Text>
+          </View>
         </ScrollView>
         <View style={styles.bottom_wrapper} >
           <Image source={require('../../assets/logo.png')} style={styles.bottom_logo} ></Image>
@@ -164,7 +88,7 @@ export default class Index extends Component {
             <TouchableOpacity onPress={() => {this.props.navigation.push('Favorites')}}>
               <Image source={require('../../assets/button_icons/favorites.png')} style={[styles.navigation_menu_each_button_image, {marginBottom: 50}]} ></Image>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {this.setState({ isNavigationMenuOn: false })}}>
+            <TouchableOpacity onPress={() => {this.props.navigation.push('Index')}}>
               <Image source={require('../../assets/clicked_button_icons/home.png')} style={styles.navigation_menu_each_button_image} ></Image>
             </TouchableOpacity>
           </View>
@@ -239,37 +163,28 @@ const styles = StyleSheet.create({
   },
   content_wrapper: {
     flex: 1, backgroundColor: "rgb(14, 14, 14)",
-    paddingLeft: 20, paddingRight: 20, marginTop: 20, paddingBottom: 75
+    paddingLeft: 40, paddingRight: 40, marginTop: 40, paddingBottom: 75
   },
-  each_announcement_wrapper: {
-    width: "100%", height: 130,
-    marginBottom: 20,
-    backgroundColor: "rgb(12, 12, 12)", borderRadius: 10,
-    flexDirection: "row"
+  content_inner_wrapper: {
+    width: "100%", height: "auto", alignItems: "center"
   },
-  each_announcement_image: {
-    height: 130, width: 130, resizeMode: "cover",
-    borderTopLeftRadius: 10, borderBottomLeftRadius: 10
+  announcement_image: {
+    width: 250, height: 250, borderRadius: 10,
+    marginBottom: 20
   },
-  each_announcement_inner_wrapper: {
-    padding: 10, width: SCREEN_WIDTH - 40 - 130
+  announcement_title_wrapper: {
+    width: "100%", flexDirection: "row", alignItems: "center",
+    marginBottom: 20
   },
-  each_announcement_title: {
-    fontWeight: "700",
-    fontSize: 18,
-    color: "rgb(254, 254, 254)",
-    width: "100%",
-    marginBottom: 7
+  announcement_title: {
+    fontWeight: "700", fontSize: 20, color: "rgb(254, 254, 254)"
   },
-  each_announcement_text: {
-    fontWeight: "300",
-    fontSize: 14,
-    color: "rgb(254, 254, 254)",
-    width: "100%", marginBottom: "auto"
+  announcement_favorite_button: {
+    marginLeft: 10
   },
-  each_announcement_favorite_button: {
-    width: 22, height: 20, resizeMode: "cover",
-    alignSelf: "flex-end"
+  announcement_text: {
+    fontWeight: "400", fontSize: 18, color: "rgb(254, 254, 254)",
+    lineHeight: 26
   },
   bottom_wrapper: {
     zIndex: 3,
